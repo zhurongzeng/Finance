@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zachary.finance.dao.IConsumeRecordDao">
+	<resultMap id="ConsumeRecord" type="com.zachary.finance.model.ConsumeRecord">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="consume_amount" property="consumeAmount" jdbcType="DOUBLE" />
+		<result column="consume_date" property="consumeDate" jdbcType="DATE" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+		<result column="creatorName" property="creatorName" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 查询列表 -->
+	<select id="list" resultMap="ConsumeRecord" parameterType="map">
+		select
+		r.id, r.title, r.consume_amount, r.consume_date, 
+		r.remark, r.creator_id, r.create_time, u.name creatorName
+		from t_consume_record r
+		left join t_user u on r.creator_id = u.id
+		<where>
+			<if test="title!=null and title!=''">and r.title like '%${title}%'</if>
+			<if test="consumeDate!=null and consumeDate!=''">and r.consume_date = #{consumeDate}</if>
+		</where>
+		<if test="start!=null and start!='' and rows!=null and rows!=''">
+		order by r.consume_date desc
+ 		limit #{start},#{rows}
+		</if>
+	</select>
+
+	<!-- 查询记录总数 -->
+	<select id="count" resultType="java.lang.Long" parameterType="map">
+		select count(1) from t_consume_record
+		<where>
+			<if test="title!=null and title!=''">and title like '%${title}%'</if>
+			<if test="consumeDate!=null and consumeDate!=''">and consume_date = #{consumeDate}</if>
+		</where>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="getById" resultMap="ConsumeRecord" parameterType="java.lang.String">
+		select
+		r.id, r.title, r.consume_amount, r.consume_date, 
+		r.remark, r.creator_id, r.create_time, u.name creatorName
+		from t_consume_record
+		left join t_user u on r.creator_id = u.id
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 插入记录 -->
+	<insert id="insert" parameterType="com.zachary.finance.model.ConsumeRecord">
+		<selectKey order="BEFORE" keyProperty="id" resultType="java.lang.String">
+			SELECT REPLACE(UUID(),'-','')
+		</selectKey>
+		insert into t_consume_record (id, title, consume_amount,
+		consume_date,
+		remark, creator_id,
+		create_time)
+		values (#{id,jdbcType=VARCHAR},
+		#{title,jdbcType=VARCHAR},
+		#{consumeAmount,jdbcType=DOUBLE},
+		#{consumeDate,jdbcType=DATE}, #{remark,jdbcType=VARCHAR},
+		#{creatorId,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<!-- 更新记录 -->
+	<update id="update" parameterType="com.zachary.finance.model.ConsumeRecord">
+		update t_consume_record
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="consumeAmount != null">
+				consume_amount = #{consumeAmount,jdbcType=DOUBLE},
+			</if>
+			<if test="consumeDate != null">
+				consume_date = #{consumeDate,jdbcType=DATE},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="creatorId != null">
+				creator_id = #{creatorId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 批量删除记录 -->
+	<delete id="delete" parameterType="map">
+		delete from t_consume_record where id in 
+		<foreach collection="list" index="index" item="id" open="(" separator="," close=")" >
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

@@ -1,0 +1,183 @@
+@CHARSET "UTF-8";
+
+* {
+	font-size: 12px;
+	font-family: Tahoma, Verdana, 微软雅黑, 新宋体
+}
+
+body {
+	background: #D2E0F2;
+}
+
+a {
+	color: Black;
+	text-decoration: none;
+}
+
+.head {
+	overflow: hidden; 
+	height: 50px; 
+	background: url(../images/icons/layout-browser-hd-bg.gif) #7f99be repeat-x center 50%; 
+	line-height: 20px; 
+	color: #fff; 
+	font-family: Verdana, 微软雅黑, 黑体;
+}
+
+.head-logo {
+	float:left;
+	width:50%;
+	height:50px;
+}
+
+.head-logo span{
+	padding-left:15px;
+	font-size:16px;
+	line-height:50px;
+}
+
+.head-logo img{
+	width:20px;
+	height:20px;
+	vertical-align:middle;
+}
+
+.head-div {
+	margin-top: auto;
+	width: 50%;
+	float: right;
+	font-weight: bold;
+	font: 12px/24px Helvetica, Tahoma, Arial, sans-serif;
+}
+
+.head-div span{
+	float:right;
+	padding-right:20px;
+	text-align:center;
+	width:200px;
+}
+
+.head-div span a {
+	color:White;
+	text-decoration:none;
+}
+
+.footer{
+	height: 30px; 
+	background: url(../images/icons/layout-browser-ft-bg.gif) #7f99be repeat-x center 50%; 
+}
+
+.footer div{
+	text-align:center;
+	margin:auto; 
+	padding:0px;
+	line-height:30px; 
+	font-weight:bold;
+	color: #fff; 
+	font-family: Tahoma, Verdana, 微软雅黑, 新宋体;
+}
+
+.textbox03 {
+	border: #878787 1px solid;
+	padding: 4px 3px;
+	font: Verdana, Geneva, sans-serif, 宋体;
+	line-height: 14px;
+	background-color: #fff;
+	height: auto;
+	font-size: 14px;
+	font-weight: bold;
+	width: 190px;
+}
+
+.txt01 {
+	font: Verdana, Geneva, sans-serif, 宋体;
+	padding: 3px 2px 2px 2px;
+	border-width: 1px;
+	border-color: #ddd;
+	color: #000;
+}
+
+.txt {
+	border: #878787 1px solid;
+	padding: 4px 3px;
+	font: Verdana, Geneva, sans-serif, 宋体;
+	line-height: 14px;
+	background-color: #fff;
+	height: auto;
+	font-size: 14px;
+}
+
+.easyui-accordion ul{list-style-type:none;margin:0px; padding:5px;}
+.easyui-accordion ul li{ padding:0px;}
+.easyui-accordion ul li a{line-height:24px;}
+.easyui-accordion ul li div{margin:2px 0px;padding-left:10px;padding-top:2px;}
+.easyui-accordion ul li div.hover{background:#E0ECFF;cursor:pointer;}
+.easyui-accordion ul li div.hover a{color:#416AA3;}
+.easyui-accordion ul li div.selected{background:#E0ECFF;cursor:default;}
+.easyui-accordion ul li div.selected a{color:#416AA3; font-weight:bold;}
+.easyui-accordion ul li div a span{width:16px;height:24px;float:left;margin-left:20px;margin-right:5px;display:block;}
+
+
+
+.icon {
+	background: url(../images/tabicons.png) no-repeat;
+}
+
+.icon-sys {
+	background: url(../images/directory.png) no-repeat;
+}
+
+.icon-nav {
+	background-position: -100px -18px;
+}
+
+.icon-users {
+	background-position: -100px -480px;
+}
+
+.icon-role {
+	background-position: -360px -200px;
+}
+
+.icon-set {
+	background-position: -380px -200px;
+}
+
+.icon-log {
+	background-position: -380px -80px;
+}
+
+.icon-house {
+	background: url('../images/icons/house.png') no-repeat center center;
+}
+
+.icon-money {
+	background: url('../images/icons/money.png') no-repeat center center;
+}
+
+.icon-bar {
+	background: url('../images/icons/chart_bar.png') no-repeat center center;
+}
+
+.icon-coins {
+	background: url('../images/icons/coins.png') no-repeat center center;
+}
+
+.icon-conf {
+	background: url('../images/icons/cog.png') no-repeat center center;
+}
+
+.icon-folder {
+	background: url('../images/icons/folder.png') no-repeat center center;
+}
+
+.icon-user {
+	background: url('../images/icons/user.png') no-repeat center center;
+}
+
+.icon-book {
+	background: url('../images/icons/book.png') no-repeat center center;
+}
+
+.icon-color {
+	background: url('../images/icons/color_swatch.png') no-repeat center center;
+}

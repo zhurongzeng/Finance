@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zachary.finance.dao.IConsumeDetailDao">
+	<resultMap id="ConsumeDetail" type="com.zachary.finance.model.ConsumeDetail">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="consume_type" property="consumeType" jdbcType="VARCHAR" />
+		<result column="consume_type_name" property="consumeTypeName" jdbcType="VARCHAR" />
+		<result column="consume_money" property="consumeMoney" jdbcType="DOUBLE" />
+		<result column="consume_id" property="consumeId" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 查询列表 -->
+	<select id="list" resultMap="ConsumeDetail" parameterType="java.lang.String">
+		select 
+		t.id, t.consume_type,t1.name consume_type_name, t.consume_money, t.consume_id, t.remark
+		from t_consume_detail t
+		left join t_consume_type t1 on t.consume_type=t1.id
+		where t.consume_id = #{consumeId,jdbcType=VARCHAR}
+		<if test="start!=null and start!='' and rows!=null and rows!=''">
+		order by t.consume_money desc
+		limit #{start},#{rows}
+		</if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="getById" resultMap="ConsumeDetail" parameterType="java.lang.String">
+		select 
+		t.id, t.consume_type,t1.name consume_type_name, t.consume_money, t.consume_id, t.remark
+		from t_consume_detail t
+		left join t_consume_type t1 on t.consume_type=t1.id
+		where t.id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询记录总数 -->
+	<select id="count" resultType="java.lang.Long" parameterType="map">
+		select count(1) from t_consume_detail where consume_id = #{consumeId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 插入记录 -->
+	<insert id="insert" parameterType="com.zachary.finance.model.ConsumeDetail">
+		<selectKey order="BEFORE" keyProperty="id" resultType="java.lang.String">
+			SELECT REPLACE(UUID(),'-','')
+		</selectKey>
+		insert into t_consume_detail
+		(id, consume_type, consume_money, consume_id, remark)
+		values
+		(#{id,jdbcType=VARCHAR}, #{consumeType,jdbcType=VARCHAR}, #{consumeMoney,jdbcType=DOUBLE}, 
+		#{consumeId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 更新记录 -->
+	<update id="update" parameterType="com.zachary.finance.model.ConsumeDetail">
+		update t_consume_detail
+		<set>
+			<if test="consumeType != null">
+				consume_type = #{consumeType,jdbcType=VARCHAR},
+			</if>
+			<if test="consumeMoney != null">
+				consume_money = #{consumeMoney,jdbcType=DOUBLE},
+			</if>
+			<if test="consumeId != null">
+				consume_id = #{consumeId,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 根据ID删除记录 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from t_consume_detail
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 计算总钱数 -->
+	<select id="calMoney" parameterType="map" resultType="java.lang.Double">
+		select sum(consume_money) consumeAmount from t_consume_detail
+		where consume_id = #{consumeId}
+	</select>
+</mapper>

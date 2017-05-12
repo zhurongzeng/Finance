@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+.FormTable  {
+	text-align: center;
+	border-collapse: separate;
+	border-spacing: 15px 10px;
+	margin: 20px auto; 
+	line-height : 20px;
+	width: 90%;
+	text-align: center;
+	line-height: 20px
+}
+
+.FormTable td{
+	width:25%;
+}

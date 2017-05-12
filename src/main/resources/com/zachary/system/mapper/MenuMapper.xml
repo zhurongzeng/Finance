@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zachary.system.dao.IMenuDao">
+	<resultMap id="Menu" type="com.zachary.system.model.Menu">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="icon" property="icon" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="sort_no" property="sortNo" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, type, code, title, icon, parent_id, url, sort_no,
+		remark
+	</sql>
+
+	<!-- 查询列表 -->
+	<select id="list" resultMap="Menu" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from sys_menu
+		<where>
+			<if test="parentId!=null and parentId!=''">and parent_id=#{parentId}</if>
+			<if test="type!=null and type!=''">and type=#{type}</if>
+			<if test="code!=null and code!=''">and code=#{code}</if>
+			<if test="title!=null and title!=''">and title like '%${title}%'</if>
+		</where>
+		<if test="start!=null and start!='' and rows!=null and rows!=''">
+			limit #{start},#{rows}
+		</if>
+		order by sort_no
+	</select>
+
+	<!-- 查询记录总数 -->
+	<select id="count" resultType="java.lang.Long" parameterType="map">
+		select count(1) from sys_menu
+		<where>
+			<if test="parentId!=null and parentId!=''">and parent_id=#{parentId}</if>
+			<if test="type!=null and type!=''">and type=#{type}</if>
+			<if test="code!=null and code!=''">and code=#{code}</if>
+			<if test="title!=null and title!=''">and title like '%${title}%'</if>
+		</where>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="getById" resultMap="Menu" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from sys_menu
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 插入记录 -->
+	<insert id="insert" parameterType="com.zachary.system.model.Menu">
+		insert into sys_menu (
+		id, type, code,
+		title, icon, parent_id,
+		url, sort_no, remark
+		)
+		values
+		(#{id,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
+		#{code,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
+		#{icon,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR}, #{sortNo,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 更新记录 -->
+	<update id="update" parameterType="com.zachary.system.model.Menu">
+		update sys_menu
+		<set>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="icon != null">
+				icon = #{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="sortNo != null">
+				sort_no = #{sortNo,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 批量删除记录 -->
+	<delete id="delete" parameterType="java.lang.String">
+		delete from sys_menu where id in
+		<foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>
